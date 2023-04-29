@@ -1,5 +1,10 @@
-﻿<h3>ValidationTicket</h3>
+﻿
+@page "/ValidationTicket"
+<h1>Bienvenido al estadio Atanasio Girardot</h1>
+<img src="https://inghospitalaria.com/wp-content/uploads/2013/07/Logo-INDER-Medellin-2015-png.png" width="50%" height="50%">
 
-@code {
-
-}
+<form onsubmit={{this.validarTicket}}>
+    <label>Ingresa el código del ticket:</label>
+    <input type="text" name="codigoTicket" bind={{this.codigoTicket}} style="width:50%">
+    <button type="submit" class="btn-dark">Validar ticket</button>
+</form>
