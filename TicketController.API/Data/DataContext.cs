@@ -10,12 +10,12 @@ namespace TicketController.API.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        public DbSet<Ticket> Ticket { get; set; }
-
+        public DbSet<Ticket> Tickets { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Ticket>().HasIndex(c => c.Id).IsUnique();
+            modelBuilder.Entity<Ticket>().HasIndex(n => n.Id).IsUnique();
         }
     }
+
 }

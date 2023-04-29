@@ -2,32 +2,38 @@
 
 namespace TicketController.API.Data
 {
-    public class SeedDB
+    public class SeedDb
     {
         private readonly DataContext _context;
 
-        public SeedDB(DataContext context)
+        public SeedDb(DataContext context)
         {
             _context = context;
         }
         public async Task SeedAsync()
         {
+
             await _context.Database.EnsureCreatedAsync();
             await TicketAsync();
         }
         private async Task TicketAsync()
         {
-            if (!_context.Ticket.Any())
+
+
+            if (!_context.Tickets.Any())
             {
-                for (int i = 0; i < 49999; i++)
+                for (int n = 0; n < 50000; n++)
                 {
-                    _context.Ticket.Add(new Ticket { UseDate = null, WasUsed = false, Entrance = null });
+                    _context.Tickets.Add(new Ticket { UseDate = null, WasUsed = false, Entrance = null });
                 }
+
             }
+
 
             await _context.SaveChangesAsync();
         }
     }
+
 }
 
 

@@ -24,20 +24,20 @@ namespace TicketController.WEB.Repositories
                 return null;
             }
 
-            var StatusCode = HttpResponseMessage.StatusCode;
-            if (StatusCode == HttpStatusCode.NotFound)
+            var codigoEstatus = HttpResponseMessage.StatusCode;
+            if (codigoEstatus == HttpStatusCode.NotFound)
             {
                 return "Recurso no encontrado";
             }
-            else if (StatusCode == HttpStatusCode.BadRequest)
+            else if (codigoEstatus == HttpStatusCode.BadRequest)
             {
                 return await HttpResponseMessage.Content.ReadAsStringAsync();
             }
-            else if (StatusCode == HttpStatusCode.Unauthorized)
+            else if (codigoEstatus == HttpStatusCode.Unauthorized)
             {
                 return "Tienes que logearte para hacer esta operación";
             }
-            else if (StatusCode == HttpStatusCode.Forbidden)
+            else if (codigoEstatus == HttpStatusCode.Forbidden)
             {
                 return "No tienes permisos para hacer esta operación";
             }
@@ -45,4 +45,5 @@ namespace TicketController.WEB.Repositories
             return "Ha ocurrido un error inesperado";
         }
     }
+
 }

@@ -7,11 +7,11 @@ namespace TicketController.API.Controllers
 {
     [ApiController]
     [Route("api/ticket")]
-    public class TicketController : ControllerBase
+    public class TicketsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public TicketController(DataContext context)
+        public TicketsController(DataContext context)
         {
             _context = context;
         }
@@ -20,15 +20,14 @@ namespace TicketController.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _context.Ticket.ToListAsync());
+            return Ok(await _context.Tickets.ToListAsync());
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            var ticket = await _context.Ticket
-                .FirstOrDefaultAsync(x => x.Id == id);
-            if (ticket == null)
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(x => x.Id == id);
+            if (ticket is null)
             {
                 return NotFound();
             }
@@ -36,20 +35,13 @@ namespace TicketController.API.Controllers
             return Ok(ticket);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(Ticket ticket)
-        {
-            _context.Add(ticket);
-            await _context.SaveChangesAsync();
-            return Ok(ticket);
-        }
-
         [HttpPut]
-        public async Task<ActionResult> PutAsync(Ticket ticket)
+        public async Task<ActionResult> Put(Ticket ticket)
         {
+            _context.Update(ticket);
             try
             {
-                _context.Update(ticket);
+
                 await _context.SaveChangesAsync();
                 return Ok(ticket);
             }
@@ -57,16 +49,26 @@ namespace TicketController.API.Controllers
             {
                 if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe un ticket con el mismo id.");
+                    return BadRequest("Ya existe un registro con el mismo nombre.");
                 }
-                return BadRequest(dbUpdateException.Message);
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
             }
             catch (Exception exception)
             {
                 return BadRequest(exception.Message);
             }
+
         }
-
-
+        [HttpPost]
+        public async Task<ActionResult> Post(Ticket ticket)
+        {
+            _context.Add(ticket);
+            await _context.SaveChangesAsync();
+            return Ok(ticket);
+        }
     }
+
 }

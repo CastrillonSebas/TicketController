@@ -62,12 +62,7 @@ namespace TicketController.WEB.Repositories
             return JsonSerializer.Deserialize<T>(respuestaString, jsonSerializerOptions)!;
         }
 
-        public async Task<HttpResponseWrapper<object>> Delete(string url)
-        {
-            var responseHTTP = await _httpClient.DeleteAsync(url);
-            return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
-        }
-
+  
         public async Task<HttpResponseWrapper<object>> Put<T>(string url, T model)
         {
             var messageJSON = JsonSerializer.Serialize(model);
@@ -89,4 +84,5 @@ namespace TicketController.WEB.Repositories
             return new HttpResponseWrapper<TResponse>(default, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
     }
+
 }
